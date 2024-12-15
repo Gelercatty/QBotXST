@@ -14,16 +14,18 @@ class SJDB:
                 CREATE TABLE IF NOT EXISTS messages (
                     SJ_id INTEGER PRIMARY KEY AUTOINCREMENT,
                     sender_id INTEGER NOT NULL,
-                    message_id INTEGER NOT NULL
+                    message_id INTEGER NOT NULL,
+                    group_id INTEGER NOT NULL
                 )
             """)
             conn.commit()
 
     # 插入一条记录
-    def insert_SJ(self, sender_id: int, message_id: int):
+    def insert_SJ(self, sender_id: int, message_id: int,group_id:int):
         with sqlite3.connect(self.db_name) as conn:
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO messages (sender_id, message_id) VALUES (?, ?)", (sender_id, message_id))
+            # cursor.execute("INSERT INTO messages (sender_id, message_id) VALUES (?, ?)", (sender_id, message_id))
+            cursor.execute("INSERT INTO messages (sender_id, message_id,group_id) VALUES (?, ?, ?)", (sender_id, message_id,group_id))
             conn.commit()
 
     # 按 SJ_id 获取记录
@@ -43,6 +45,14 @@ class SJDB:
         with sqlite3.connect(self.db_name) as conn:
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM messages WHERE sender_id = ?", (sender_id,))
+            results = cursor.fetchall()
+            
+            return [{"SJ_id": row[0], "sender_id": row[1], "message_id": row[2]} for row in results] if results else []
+        
+    def get_SJ_senderid_and_group_id(self, sender_id: int,group_id:int) -> List[Dict[str, int]]:
+        with sqlite3.connect(self.db_name) as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM messages WHERE sender_id = ? and group_id = ?", (sender_id,group_id))
             results = cursor.fetchall()
             
             return [{"SJ_id": row[0], "sender_id": row[1], "message_id": row[2]} for row in results] if results else []

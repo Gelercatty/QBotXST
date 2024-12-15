@@ -8,6 +8,10 @@ import json
 import tiktoken
 
 chatt = on_message(rule=to_me(), priority=5, block=True)
+whatHappened = on_message(rule=to_me(), priority=1, block=True)
+
+debug = on_message( priority=100)
+
 screat_key = "sk-Zaf2uleEp063EhFt81D9225c4b98470b84Fb0cE595E9Fe0c"
 url = "https://api.gpt.ge/v1/chat/completions"
 
@@ -23,7 +27,7 @@ len_prompt = len(encoding.encode(prompt['content']))
 
 context = []
 
-maxLoop = 10
+maxLoop = 4
 max_token = 128000
 cur_token = len_prompt
 def manageContext(userInput):
@@ -69,9 +73,12 @@ async def func_chat(bot:Bot,event:Event):
         message_content = res['choices'][0]['message']['content']
         print(res)
         if message_content:
-            
             await chatt.send(message_content)
         else:
     
             await chatt.send("对不起，我无法生成回复。")
             
+@debug.handle() 
+def whatHappened(bot: Bot, event: Event):
+    print("debug")
+    print(event.get_message())

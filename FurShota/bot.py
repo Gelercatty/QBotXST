@@ -16,6 +16,7 @@ driver.register_adapter(onebot11Adapter)
 
 nonebot.load_plugin(Path("./plugins/SJsystem/RandSJ.py"))
 nonebot.load_plugin(Path("./plugins/Chat/chat.py"))
+# nonebot.load_plugin(Path("./plugins/Fluffle/Fluffle.py"))
 
 
 
