@@ -6,6 +6,7 @@ from nonebot.adapters import Bot, Event
 import requests
 import json
 import tiktoken
+import time
 
 chatt = on_message(rule=to_me(), priority=5, block=True)
 whatHappened = on_message(rule=to_me(), priority=1, block=True)
@@ -49,10 +50,11 @@ def manageContext(userInput):
     res = context.copy()
     res.insert(0, prompt)
     return res
+cool_down = 5
 
 @chatt.handle()
 async def func_chat(bot:Bot,event:Event):
-    if event.is_tome():
+    if event.is_tome() and :
         msg = event.get_message()[0].data['text']
         sender_id = event.get_user_id()
         print(type(msg))

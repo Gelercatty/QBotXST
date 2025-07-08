@@ -1,6 +1,5 @@
 import nonebot
 from nonebot.adapters.onebot.v11 import Adapter as onebot11Adapter   # 避免重复命名
-from nonebot.adapters.console import Adapter as ConsoleBotAdapter
 from pathlib import Path
 # 初始化 NoneBot
 nonebot.init()
